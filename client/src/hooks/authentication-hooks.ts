@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCurrentUser, logIn } from "../helpers/api-helpers";
+import { getCurrentUser, logIn, logOut } from "../helpers/api-helpers";
 
 type LoginInformation = {
     email: string,
@@ -14,6 +14,18 @@ export function useLogin() {
         onSuccess: (data) => {
             window.localStorage.setItem("lppToken", JSON.stringify(data));
             if (data) queryClient.invalidateQueries({ queryKey: ["current"] });
+        }
+    });
+}
+
+export function useLogout() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: logOut,
+        onSuccess: () => {
+            window.localStorage.removeItem("lppToken");
+            queryClient.invalidateQueries({ queryKey: ["current"] });
         }
     });
 }

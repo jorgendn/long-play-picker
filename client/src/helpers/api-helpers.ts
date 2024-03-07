@@ -8,7 +8,9 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-    const token = JSON.parse(window.localStorage.getItem("lppToken") ?? "");
+    const localStorageToken = window.localStorage.getItem("lppToken");
+
+    const token = localStorageToken ? JSON.parse(localStorageToken) : {};
 
     if (config.headers) {
         config.headers["Authorization"] = `Bearer ${token.accessToken}`;
@@ -22,6 +24,10 @@ export function logIn(email: string, password: string) {
         email,
         password
     }).then(r => r.data);
+}
+
+export function logOut() {
+    return apiClient.post("/logout", {}).then(r => r.data);
 }
 
 export function getCurrentUser() {
