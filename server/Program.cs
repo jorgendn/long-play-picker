@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using LPP;
 using LPP.Users;
 using Microsoft.AspNetCore.Identity;
@@ -42,6 +43,19 @@ app.MapPost("/registerCustom", async (UserManager<LppUser> userManager, [FromBod
     return result.Succeeded ? Results.Ok() : Results.BadRequest();
 })
 .WithOpenApi();
+
+app.MapGet("/currentUser", async (UserManager < LppUser > userManager, ClaimsPrincipal principal) =>
+{
+    var userName = principal.Identity?.Name;
+
+    if (userName == null) return Results.NotFound();
+
+    var user = await userManager.FindByNameAsync(userName);
+
+    return Results.Ok(user);
+})
+.WithOpenApi()
+.RequireAuthorization();
 
 app.MapPost("/logout", async (SignInManager<LppUser> signInManager, [FromBody] object? empty) =>
 {
