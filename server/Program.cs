@@ -1,4 +1,5 @@
 using LPP;
+using LPP.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<LppDbContext>();
+builder.Services.AddIdentityApiEndpoints<LppUser>().AddEntityFrameworkStores<LppDbContext>();
 
 var app = builder.Build();
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<LppUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -27,7 +28,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object? empty) =>
+app.MapPost("/registerCustom", async (UserManager<LppUser> userManager, [FromBody] RegisterUser registerInfo) => 
+{
+    LppUser user = new()
+    {
+        DisplayName = registerInfo.DisplayName,
+        Email = registerInfo.Email,
+        UserName = registerInfo.Email
+    };
+
+    var result = await userManager.CreateAsync(user, registerInfo.Password);
+
+    return result.Succeeded ? Results.Ok() : Results.BadRequest();
+})
+.WithOpenApi();
+
+app.MapPost("/logout", async (SignInManager<LppUser> signInManager, [FromBody] object? empty) =>
 {
     if (empty == null) return Results.Unauthorized();
 
