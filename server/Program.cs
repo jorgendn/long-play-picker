@@ -9,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LppDbContext>(options => options.UseInMemoryDatabase("LppDb"));
 
+builder.Services.AddCors(options => options.AddPolicy("AllowAnything", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -17,6 +22,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<LppUser>().AddEntityFrameworkStores<LppDbContext>();
 
 var app = builder.Build();
+
+app.UseCors("AllowAnything");
 
 app.MapIdentityApi<LppUser>();
 

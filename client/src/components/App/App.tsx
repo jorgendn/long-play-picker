@@ -1,4 +1,5 @@
-import { useCurrentUser } from "./hooks/authentication-hooks"
+import { useCurrentUser } from "../../hooks/authentication-hooks"
+import Login from "../Login";
 
 function App() {
   const { data: currentUser, isSuccess, isPending } = useCurrentUser();
@@ -8,8 +9,8 @@ function App() {
   }
 
   return isSuccess ?
-    <p>Hello {currentUser}!</p> :
-    <p>Please log in.</p>
+    <p>Hello {currentUser.displayName}!</p> :
+    <Login />
 }
 
 export default App
