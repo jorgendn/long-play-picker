@@ -1,18 +1,35 @@
-import { useCurrentUser, useLogout } from "../../hooks/authentication-hooks"
-import Login from "../Login";
+import { useCurrentUser, useLogout } from '../../hooks/authentication-hooks';
+import Header from '../Header';
+import Login from '../Login';
 
 function App() {
-  const { data: currentUser, isSuccess, isPending } = useCurrentUser();
+    const { data: currentUser, isSuccess, isPending } = useCurrentUser();
 
-  const logoutQuery = useLogout();
+    const logoutQuery = useLogout();
 
-  if (isPending) {
-    return <p>Loading...</p>
-  }
+    if (isPending) {
+        return <p>Loading...</p>;
+    }
 
-  return isSuccess ?
-    <p>Hello {currentUser.displayName}! <button onClick={() => { logoutQuery.mutate() }}>Log out</button></p> :
-    <Login />
+    return (
+        <>
+            <Header />
+            {isSuccess ? (
+                <p>
+                    Hello {currentUser.displayName}!{' '}
+                    <button
+                        onClick={() => {
+                            logoutQuery.mutate();
+                        }}
+                    >
+                        Log out
+                    </button>
+                </p>
+            ) : (
+                <Login />
+            )}
+        </>
+    );
 }
 
-export default App
+export default App;

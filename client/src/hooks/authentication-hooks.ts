@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCurrentUser, logIn, logOut } from "../helpers/api-helpers";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCurrentUser, logIn, logOut } from '../helpers/api-helpers';
 
 type LoginInformation = {
-    email: string,
-    password: string
+    email: string;
+    password: string;
 };
 
 export function useLogin() {
@@ -12,9 +12,9 @@ export function useLogin() {
     return useMutation({
         mutationFn: (info: LoginInformation) => logIn(info.email, info.password),
         onSuccess: (data) => {
-            window.localStorage.setItem("lppToken", JSON.stringify(data));
-            if (data) queryClient.invalidateQueries({ queryKey: ["current"] });
-        }
+            window.localStorage.setItem('lppToken', JSON.stringify(data));
+            if (data) queryClient.invalidateQueries({ queryKey: ['current'] });
+        },
     });
 }
 
@@ -24,12 +24,17 @@ export function useLogout() {
     return useMutation({
         mutationFn: logOut,
         onSuccess: () => {
-            window.localStorage.removeItem("lppToken");
-            queryClient.invalidateQueries({ queryKey: ["current"] });
-        }
+            window.localStorage.removeItem('lppToken');
+            queryClient.invalidateQueries({ queryKey: ['current'] });
+        },
     });
 }
 
 export function useCurrentUser() {
-    return useQuery({ queryKey: ["current"], queryFn: getCurrentUser, retry: 0, refetchOnWindowFocus: false });
+    return useQuery({
+        queryKey: ['current'],
+        queryFn: getCurrentUser,
+        retry: 0,
+        refetchOnWindowFocus: false,
+    });
 }
