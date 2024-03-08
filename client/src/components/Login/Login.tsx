@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLogin } from '../../hooks/authentication-hooks';
 import styled from 'styled-components';
+import Button from '../Button';
 
 function Login() {
     const loginQuery = useLogin();
@@ -44,7 +45,7 @@ function Login() {
                     />
                 </InputWrapper>
 
-                <button>Submit!</button>
+                <Button>Submit!</Button>
             </LoginForm>
         </Wrapper>
     );
