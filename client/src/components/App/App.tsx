@@ -1,5 +1,6 @@
 import { useCurrentUser } from '../../hooks/authentication-hooks';
-import Authenticated from '../Authenticated/Authenticated';
+import Authenticated from '../Authenticated';
+import GlobalStyles from '../GlobalStyles';
 import Login from '../Login';
 
 function App() {
@@ -9,7 +10,12 @@ function App() {
         return <p>Loading...</p>;
     }
 
-    return isSuccess ? <Authenticated /> : <Login />;
+    return (
+        <>
+            {isSuccess ? <Authenticated /> : <Login />}
+            <GlobalStyles />
+        </>
+    );
 }
 
 export default App;

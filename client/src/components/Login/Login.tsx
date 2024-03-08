@@ -17,28 +17,32 @@ function Login() {
     return (
         <Wrapper>
             <header>
-                <Logo src="logo.png" />
+                <img src="logo.png" />
             </header>
             <LoginForm onSubmit={handleSubmit}>
-                <label htmlFor="login-email">Email:</label>
-                <input
-                    type="text"
-                    id="login-email"
-                    value={email}
-                    onChange={(event) => {
-                        setEmail(event.target.value);
-                    }}
-                />
+                <InputWrapper>
+                    <label htmlFor="login-email">Email</label>
+                    <input
+                        type="text"
+                        id="login-email"
+                        value={email}
+                        onChange={(event) => {
+                            setEmail(event.target.value);
+                        }}
+                    />
+                </InputWrapper>
 
-                <label htmlFor="login-password">Password:</label>
-                <input
-                    type="password"
-                    id="login-password"
-                    value={password}
-                    onChange={(event) => {
-                        setPassword(event.target.value);
-                    }}
-                />
+                <InputWrapper>
+                    <label htmlFor="login-password">Password</label>
+                    <input
+                        type="password"
+                        id="login-password"
+                        value={password}
+                        onChange={(event) => {
+                            setPassword(event.target.value);
+                        }}
+                    />
+                </InputWrapper>
 
                 <button>Submit!</button>
             </LoginForm>
@@ -50,19 +54,31 @@ const Wrapper = styled.div`
     position: fixed;
     inset: 0;
     width: fit-content;
-    max-width: 800px;
+    max-width: min(800px, 100% - 32px);
     height: fit-content;
     margin: auto;
-`;
-
-const Logo = styled.img`
-    display: block;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
 `;
 
 const LoginForm = styled.form`
     display: flex;
     flex-direction: column;
+    gap: 16px;
+    width: 40ch;
+    max-width: 100%;
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+        font-weight: bold;
+    }
 `;
 
 export default Login;
