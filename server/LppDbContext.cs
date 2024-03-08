@@ -4,4 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LPP;
 
-public class LppDbContext(DbContextOptions<LppDbContext> options) : IdentityDbContext<LppUser>(options);
+public class LppDbContext(DbContextOptions<LppDbContext> options) : IdentityDbContext<LppUser>(options)
+{
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<LppUser>(b =>
+        {
+            b.Property(u => u.DisplayName).IsRequired().HasMaxLength(100);
+        });
+    }
+}

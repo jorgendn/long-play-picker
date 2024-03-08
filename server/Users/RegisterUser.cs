@@ -4,7 +4,7 @@ namespace LPP.Users;
 
 public class RegisterUser
 {
-    [Required]
+    [Required, MaxLength(100)]
     public required string DisplayName { get; set; }
 
     [Required]

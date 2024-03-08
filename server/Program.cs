@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<LppDbContext>(options => options.UseInMemoryDatabase("LppDb"));
+builder.Services.AddDbContext<LppDbContext>(options => 
+    options.UseSqlServer("Data Source=LOCALHOST;Initial Catalog=dbLpp;Integrated Security=False;User ID=dbUserLpp;Password=P4ssw0rd1;MultipleActiveResultSets=True;TrustServerCertificate=True"));
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAnything", builder =>
 {
